@@ -421,3 +421,48 @@ const sikpCheck = async () => {
     }
     functions.updateJSON();
 }    
+
+function individualDetilCredit(boolean){
+    functions.setStyle("textbox221", "visible", boolean); //tempat lahir
+      functions.setStyle("textbox222", "visible", boolean); //No KTP
+      functions.setStyle("textbox223", "visible", boolean); //alamat both on individual or company
+      functions.setStyle("DepSatTrxLeadsApplicant.dateofbirth","visible",boolean); //tanggal lahir 
+      functions.setStyle("combo123", "visible", boolean); // jenis kelamin
+      functions.setStyle("combo124", "visible", boolean); // agama
+      functions.setStyle("combo125", "visible", boolean); // pekerjaan
+      functions.setStyle("combo126", "visible", boolean); // status perkawinan
+      functions.setStyle("textbox227", "visible", boolean); // nomor handphone
+      functions.setStyle("combo127", "visible", boolean); // Kewarganegaraan
+      functions.setStyle("textbox228", "visible", boolean); // No Kartu keluarga
+      functions.setStyle("textbox229", "visible", boolean); //alamat email
+      functions.setStyle("textbox231","visible",boolean); // Nama gadis ibukanduang
+      functions.setStyle("textbox234","visible",boolean); // jumlah tanggungan
+}
+
+function companyDetailCredit(boolean){
+    functions.setStyle("textbox411", "visible", boolean); // badan usaha
+      functions.setStyle("textbox412", "visible", boolean); // nama perusahaan
+      functions.setStyle("textbox410", "visible", boolean); // no telpon perusahan
+      functions.setStyle("textbox405", "visible", boolean); // no akta pendirian
+      functions.setStyle("combo185", "visible", boolean); // status kepemilikan tempat usaha
+      functions.setStyle("combo186", "visible", boolean); // sektor ekonomi
+      functions.setStyle("DepSatTrxLeadsApplicant.dateofestablishmentdeed","visible",boolean); //tanggal akta pendirian
+      functions.setStyle("combo187", "visible", boolean); // sub sector economi
+  
+}
+
+
+function hideShowItemDetailCredit() {
+    var consumerType = functions.getValue("textbox260");
+  
+    if (consumerType == "Individual") {
+      companyDetailCredit("false");
+      individualDetilCredit("true");  
+
+    } else if (consumerType == "Company") {
+        companyDetailCredit("true");
+        individualDetilCredit("false");
+    }
+    functions.updateJSON();
+  }
+
