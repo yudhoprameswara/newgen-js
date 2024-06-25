@@ -466,3 +466,4 @@ function hideShowItemDetailCredit() {
     functions.updateJSON();
   }
 
+// test
