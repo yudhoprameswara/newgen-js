@@ -172,7 +172,7 @@ function selectFeatureToBeIncludedInRichText(){
     return FroalaToolbarJson;
 }
 
-
+// tes 1 2 3
 
 
 
