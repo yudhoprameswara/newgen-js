@@ -328,27 +328,94 @@ function onEventRecievedFromMobile(recievedDataString) {
 
 const consumentType = () => {
     const valCustType = functions.getValue("DepSatTrxLeadsApplicant.customertype")
+    let condition1 = "";
+    let condition2 = "";
+
     if(valCustType === "Individual"){
-        functions.setStyle("frame19","visible","false");
-        functions.setStyle("frame3","visible","true");
-        functions.setStyle("frame2","visible","true");
-        functions.setStyle("button1","visible","true");
-        functions.setStyle("button6","visible","true");
+        condition1 = "false";
+        condition2 = "true";
     } else {
-        functions.setStyle("button6","visible","false");
-        functions.setStyle("button1","visible","false");
-        functions.setStyle("frame2","visible","false");
-        functions.setStyle("frame3","visible","false");
-        functions.setStyle("frame19","visible","true");
+        condition1 = "true";
+        condition2 = "false";
     }
+
+    functions.setStyle("button6","visible",condition2);
+    functions.setStyle("button1","visible",condition2);
+    functions.setStyle("frame2","visible",condition2);
+    functions.setStyle("frame3","visible",condition2);
+    functions.setStyle("frame19","visible",condition1);
     functions.updateJSON()
 }
 
-// consume api ducakpil check
-// name
-// noKtp
-// tempat lahir
-// tanggal lahir
-// jenis kelamin
-// status perkawinan
-// kewarganegaraan
+const consumeApi = async (apiUrl) => {
+    await fetch(apiUrl)
+        .then(res => {
+            if(!res.ok){
+                if(res.status === 400){
+                    throw new Error("data not found........");
+                } else if(res.status === 500){
+                    throw new Error("Internal Server Api Error......")
+                } else {
+                    throw new Error("Network response was not ok.....")
+                }
+            }
+            return res.json();
+        }).catch(err => {
+            console.error("Error : ", err)
+        })
+}
+
+const getObjDucakpilAndSikpCheck = () => {
+    return {
+        fullname : functions.getValue("this is field"),
+        identityNumber : functions.getValue("this is field"),
+        birthPlace : functions.getValue("this is field"),
+        birthDate : functions.getValue("this is field"),
+        gender : functions.getValue("this is field"),
+        maritalStatus : functions.getValue("this is field"),
+        nationality : functions.getValue("this is field")
+    };
+}
+
+
+const ducakpilCheck = async () => {
+    const ducakpilApiUrl = "https://thisisapi.yuhuu";
+    const data = getObjDucakpilAndSikpCheck();
+    
+    const res = await consumeApi(ducakpilApiUrl);
+    if(
+        (data.fullname === res.fullname) &&
+        (data.identityNumber === res.identityNumber) &&
+        (data.birthPlace === res.birthPlace) &&
+        (data.birthDate === res.birthDate) &&
+        (data.gender === res.gender) &&
+        (data.maritalStatus === res.maritalStatus) &&
+        (data.nationality === res.nationality)
+    ){
+        functions.setValue("verificationcontrols_idducakpil","Verified");
+    } else {
+        functions.setValue("verificationcontrols_idducakpil","UnVerified");
+    }
+    functions.updateJSON();
+}
+    
+const sikpCheck = async () => {
+    const sikpUrl = "https://thisisapi.yuhuu";
+    const data = getObjDucakpilAndSikpCheck();
+    
+    const res = await consumeApi(sikpUrl);
+    if(
+        (data.fullname === res.fullname) &&
+        (data.identityNumber === res.identityNumber) &&
+        (data.birthPlace === res.birthPlace) &&
+        (data.birthDate === res.birthDate) &&
+        (data.gender === res.gender) &&
+        (data.maritalStatus === res.maritalStatus) &&
+        (data.nationality === res.nationality)
+    ){
+        functions.setValue("verificationcontrols_idsikp","Verified");
+    } else {
+        functions.setValue("verificationcontrols_idsikp","UnVerified");
+    }
+    functions.updateJSON();
+}    
