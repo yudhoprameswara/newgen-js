@@ -325,6 +325,8 @@ function onEventRecievedFromMobile(recievedDataString) {
     //The above data will be used for funther operations to be performed by form accordingly
 }
 
+// Additional code is below
+
 
 const consumentType = () => {
     const valCustType = functions.getValue("DepSatTrxLeadsApplicant.customertype")
